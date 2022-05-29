@@ -17,6 +17,7 @@ struct Aresta
     int no;
     int custo;
     int usado;
+    int direcao;
 };
 
 class Grafo
@@ -42,7 +43,7 @@ Grafo::Grafo()
     int u, v, w;
 
     std::vector<Aresta> ligacao;
-    for(int i = 0; i <= this->M; i++)
+    for(int i = 0; i <= this->N; i++)
     {
         this->nos.push_back(ligacao);
     }
@@ -56,7 +57,11 @@ Grafo::Grafo()
         aux.no = v;
         aux.custo = w;
         aux.usado = 0;
+        aux.direcao = 1;
         this->nos[u].push_back(aux);
+        aux.no = u;
+        aux.direcao = -1;
+        this->nos[v].push_back(aux);
     }
 
     for(int i = 0; i <= this->N; i++)
@@ -70,6 +75,12 @@ bool Grafo::DFS(int u, int v)
     for(int i = 0; i < (int)this->nos[u].size(); i++)
     {
         int no = this->nos[u][i].no;
+        //verifica de o caminho reverso eh possivel
+        if(this->nos[u][i].direcao == -1 && this->nos[u][i].usado == 0)
+        {
+            continue;
+        }
+        //dfs normal
         if(this->explorado[no] == 0)
         {
             this->explorado[no] = 1;
@@ -95,6 +106,7 @@ void Grafo::realiza_consultas()
         int u, v;
         std::cin >> u;
         std::cin >> v;
+        this->explorado[u] = 1;
         DFS(u, v);
         // while(DFS(u, v))
         // {
