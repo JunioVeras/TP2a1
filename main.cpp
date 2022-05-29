@@ -23,7 +23,7 @@ class Grafo
 {
     private:
         int N, M, Q;
-        std::vector<std::vector<int>> nos;
+        std::vector<std::vector<Aresta>> nos;
         std::vector<int> apath;
         std::vector<int> explorado;
     public:
